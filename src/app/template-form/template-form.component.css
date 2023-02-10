@@ -1,0 +1,8 @@
+/* Aqui declaramos que as classes atribuidas ao input receberão essa estilização quando tiver erro, além disso, estamos excluindo o que for form, declaramos que apenas quando ele for tocado que ele poderá receber essa estilização */
+/* .ng-invalid.ng-touched:not(form){
+  border: 1px solid red;
+} */
+
+.error{
+  color: red;
+}

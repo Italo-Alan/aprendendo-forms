@@ -1,0 +1,63 @@
+<!--
+  1- Primeiro criamos uma variável local para facilitar a referência ao form como um todo.
+  2- Precisamos associar ao ngForm, indicando que queremos a ajuda do Angular.
+  3- Podemos usar o ngSubmit para submeter os dados, sendo necessário criar o método no componente.
+  4- Podemos passar a variável local com parametro para o onSubmit.
+  5- Precisamos associar os campos ao formulário com a diretiva ngModel, já que temos o nome associado ao input ele funciona corretamente.
+
+  -- Inicializando valores com ngModel(two-way data-binding)
+    1- Dentro do component, fazemos a criação de um "objeto" que armazenará os dados e representará os dados passados.
+    2- Passamos as referências do objeto dentro do component para a diretiva.
+    3- Em algumas ocasiões, poderemos usar o property-bindig **[ngModel]**,sendo nesse caso inicializado o valor que se encontra no objeto do component
+    4- Se precisarmos do two-way data-binding utilie-o
+    5- Se só precisamos inicializar o valor, podemos apenas usar o property-binding
+
+  -- Aplicando validação dos campos
+    1- required -> Faz com que o campo seja obrigatório
+    2- Caso queiramos validar p/ ter o regex do campo usariamos pattern(), podems procurar um regex válido para emails e colocar junto do pattern('')
+    3- Em versões mais antigas é possível usar apenas o regex 'email'
+
+  --CSS na validação dos campos
+    1- Podemos criar uma variável local para o input que iremos trabalhar.
+    2- Fazendo uma interpolação com o nome da variável local e o className, podemos ver quais classes estão sendo aplicadas ao input
+
+  --Mensagem de erro de validação
+    1- Associamos o ngModel a uma variável local
+    2- Logo depois usamos o *ngIf para verificar se ele está válido ou não, e podemos acrescentar as classes do CSS junto
+    3- Fazendo que agora sim, caso o campo receba o foco ele apareceça corretamente após não ter sido preenchido;
+-->
+<form #form="ngForm" (ngSubmit)="onSubmit(form)" class="row g-3 needs-validation" novalidate>
+  <div class="form-group"
+  [class.has-error]="!nome.valid && nome.touched"
+  [class.has-feedback]="!nome.valid && nome.touched"
+  >
+    <label for="nome" class="control-label">Nome</label>
+    <input type="text"  class="mb-3" class="form-control" id="nome" name="nome" (ngModel)="user.name"
+      [class.is-invalid]="!nome.valid && nome.touched"
+      required #nome="ngModel"
+      [class.is-valid]="nome.valid">
+    <div *ngIf="!nome.valid && nome.touched"
+      [class.invalid-feedback]="!nome.valid && nome.touched"
+      >
+      Este campo é obrigatório!
+    </div>
+  </div>
+
+  <div class="form-group mb-3">
+    <label for="email" class="form-label">Email</label>
+    <input type="email" class="form-control" id="email" placeholder="seuemail@email.com" name="email" (ngModel)="user.email"
+      required
+      pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
+      [class.is-invalid]="!email.valid && email.touched"
+      [class.is-valid]="email.valid"
+      #email="ngModel">
+      <div class="valid-feedback d-block"
+        *ngIf="!email.valid && email.touched"
+        [class.invalid-feedback]="!email.valid && email.touched">
+        Email inválido!
+      </div>
+    </div>
+
+  <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
