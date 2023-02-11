@@ -25,39 +25,103 @@
     1- Associamos o ngModel a uma variável local
     2- Logo depois usamos o *ngIf para verificar se ele está válido ou não, e podemos acrescentar as classes do CSS junto
     3- Fazendo que agora sim, caso o campo receba o foco ele apareceça corretamente após não ter sido preenchido;
--->
-<form #form="ngForm" (ngSubmit)="onSubmit(form)" class="row g-3 needs-validation" novalidate>
-  <div class="form-group"
-  [class.has-error]="!nome.valid && nome.touched"
-  [class.has-feedback]="!nome.valid && nome.touched"
-  >
+
+  --Desabilitando botão se os inputs não estiverem válidos
+    1- Podemos usar o property binding para adicionar algo no botão
+    2- Logo após colocamos a espressão, podemos colocar direto a variável do form ou as variáveis dos inputs
+  -->
+<form #form="ngForm" (ngSubmit)="onSubmit(form)" class="needs-validation" novalidate>
+  <div class="form-group mb-3"
+    [class.has-error]="!nome.valid && nome.touched"
+    [class.has-feedback]="!nome.valid && nome.touched">
     <label for="nome" class="control-label">Nome</label>
-    <input type="text"  class="mb-3" class="form-control" id="nome" name="nome" (ngModel)="user.name"
+    <input type="text" class="form-control is-valid" id="nome" name="nome" (ngModel)="user.name"
+      placeholder="Seu nome"
       [class.is-invalid]="!nome.valid && nome.touched"
       required #nome="ngModel"
       [class.is-valid]="nome.valid">
-    <div *ngIf="!nome.valid && nome.touched"
-      [class.invalid-feedback]="!nome.valid && nome.touched"
-      >
-      Este campo é obrigatório!
+    <div class="invalid-feedback">
+      Nome é obrigatório!
     </div>
   </div>
 
   <div class="form-group mb-3">
-    <label for="email" class="form-label">Email</label>
+    <label for="email" class="control-label">Email</label>
     <input type="email" class="form-control" id="email" placeholder="seuemail@email.com" name="email" (ngModel)="user.email"
       required
       pattern="[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?"
       [class.is-invalid]="!email.valid && email.touched"
       [class.is-valid]="email.valid"
       #email="ngModel">
-      <div class="valid-feedback d-block"
-        *ngIf="!email.valid && email.touched"
-        [class.invalid-feedback]="!email.valid && email.touched">
+      <div class="invalid-feedback">
         Email inválido!
       </div>
     </div>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-</form>
+    <div class="row mb-3">
+      <div class="col-md-3">
+        <label for="email" class="control-label">CEP</label>
+        <input type="text" class="form-control" placeholder="CEP" id="cep"
+          name="cep" ngModel required #cep="ngModel"
+          [class.is-invalid]="!cep.valid && cep.touched"
+          [class.is-valid]="cep.valid">
+          <div class="invalid-feedback">
+            CEP inválido!
+          </div>
+      </div>
+
+      <div class="col-md-2">
+        <label for="email" class="control-label">Número</label>
+        <input type="text" class="form-control" placeholder="Número"
+          name="numero" ngModel required #numero="ngModel"
+          [class.is-invalid]="!numero.valid && numero.touched"
+          [class.is-valid]="numero.valid">
+          <div class="invalid-feedback">
+            Número inválido!
+          </div>
+      </div>
+
+      <div class="col-md-7">
+        <label for="email" class="control-label">Complemento</label>
+        <input type="text" class="form-control" placeholder="Complemento"
+          name="complemento" ngModel required #complemento="ngModel"
+          [class.is-invalid]="!complemento.valid && complemento.touched"
+          [class.is-valid]="complemento.valid">
+        <div class="invalid-feedback">
+          Complemento inválido!
+      </div>
+
+      </div>
+    </div>
+
+    <fieldset disabled>
+      <div class="form-group mb-3">
+        <label for="rua" class="control-label">Rua</label>
+        <input type="text" class="form-control"
+          name="rua" ngModel readonly #rua="ngModel">
+      </div>
+      <div class="row mb-3">
+        <div class="col-md-5">
+          <label for="bairro" class="control-label">Bairro</label>
+          <input type="text" class="form-control"
+            name="bairro" ngModel readonly #bairro="ngModel">
+        </div>
+        <div class="col-md-4">
+          <label for="cidade" class="control-label">Cidade</label>
+          <input type="text" class="form-control"
+          name="cidade" ngModel readonly #cidade="ngModel">
+        </div>
+        <div class="col-md-3">
+          <label for="estado" class="control-label">Estado</label>
+          <input type="text" class="form-control"
+            name="estado" ngModel readonly #estado="ngModel" [(ngModel)]="user.estado">
+        </div>
+      </div>
+    </fieldset>
+    
+    <button type="submit" class="btn btn-primary"
+      [disabled]="!form.valid">Submit</button>
+
+    <app-form-debug [form]="form"></app-form-debug>
+  </form>
 

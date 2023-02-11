@@ -1,0 +1,16 @@
+<!-- Só mostraremos caso o formulário seja passado/existir -->
+<div style="margin-top: 20px" *ngIf="form">
+  <div>
+    Detalhes do form
+  </div>
+  <pre>
+    Form válido: {{ form.valid }}
+  </pre>
+  <pre>
+    Form submetido: {{ form.submitted }}
+  </pre>
+  <!-- Por ser um objeto, devemos usar o pipe | de jsn -->
+  <pre>
+    Valores: <br> {{ form.value | json }}
+  </pre>
+</div>
