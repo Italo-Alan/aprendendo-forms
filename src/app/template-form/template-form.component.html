@@ -58,67 +58,72 @@
       </div>
     </div>
 
-    <div class="row mb-3">
-      <div class="col-md-3">
-        <label for="email" class="control-label">CEP</label>
-        <input type="text" class="form-control" placeholder="CEP" id="cep"
-          name="cep" ngModel required #cep="ngModel"
-          [class.is-invalid]="!cep.valid && cep.touched"
-          [class.is-valid]="cep.valid">
+    <!-- Podemos ver agora que temos tudo dentro de endereço aninhado.-->
+    <div ngModelGroup="endereco">
+      <div class="row mb-3">
+        <div class="col-md-3">
+          <label for="email" class="control-label">CEP</label>
+          <input type="text" class="form-control" placeholder="CEP" id="cep"
+            name="cep" ngModel required #cep="ngModel"
+            [class.is-invalid]="!cep.valid && cep.touched"
+            [class.is-valid]="cep.valid"
+            (blur)="buscaCep(cep.value, form)">
+            <div class="invalid-feedback">
+              CEP inválido!
+            </div>
+        </div>
+
+        <div class="col-md-2">
+          <label for="email" class="control-label">Número</label>
+          <input type="text" class="form-control" placeholder="Número"
+            name="numero" ngModel required #numero="ngModel"
+            [class.is-invalid]="!numero.valid && numero.touched"
+            [class.is-valid]="numero.valid">
+            <div class="invalid-feedback">
+              Número inválido!
+            </div>
+        </div>
+
+        <div class="col-md-7">
+          <label for="email" class="control-label">Complemento</label>
+          <input type="text" class="form-control" placeholder="Complemento"
+            name="complemento" ngModel required #complemento="ngModel"
+            [class.is-invalid]="!complemento.valid && complemento.touched"
+            [class.is-valid]="complemento.valid">
           <div class="invalid-feedback">
-            CEP inválido!
+            Complemento inválido!
+        </div>
+
+        </div>
+      </div>
+
+      <fieldset disabled>
+        <div class="form-group mb-3">
+          <label for="rua" class="control-label">Rua</label>
+          <input type="text" class="form-control"
+            name="rua" ngModel readonly #rua="ngModel">
+        </div>
+        <div class="row mb-3">
+          <div class="col-md-5">
+            <label for="bairro" class="control-label">Bairro</label>
+            <input type="text" class="form-control"
+              name="bairro" ngModel readonly #bairro="ngModel">
           </div>
-      </div>
-
-      <div class="col-md-2">
-        <label for="email" class="control-label">Número</label>
-        <input type="text" class="form-control" placeholder="Número"
-          name="numero" ngModel required #numero="ngModel"
-          [class.is-invalid]="!numero.valid && numero.touched"
-          [class.is-valid]="numero.valid">
-          <div class="invalid-feedback">
-            Número inválido!
+          <div class="col-md-4">
+            <label for="cidade" class="control-label">Cidade</label>
+            <input type="text" class="form-control"
+            name="cidade" ngModel readonly #cidade="ngModel">
           </div>
-      </div>
-
-      <div class="col-md-7">
-        <label for="email" class="control-label">Complemento</label>
-        <input type="text" class="form-control" placeholder="Complemento"
-          name="complemento" ngModel required #complemento="ngModel"
-          [class.is-invalid]="!complemento.valid && complemento.touched"
-          [class.is-valid]="complemento.valid">
-        <div class="invalid-feedback">
-          Complemento inválido!
-      </div>
-
-      </div>
+          <div class="col-md-3">
+            <label for="estado" class="control-label">Estado</label>
+            <input type="text" class="form-control"
+              name="estado" ngModel readonly #estado="ngModel" [(ngModel)]="user.estado">
+          </div>
+        </div>
+      </fieldset>
     </div>
 
-    <fieldset disabled>
-      <div class="form-group mb-3">
-        <label for="rua" class="control-label">Rua</label>
-        <input type="text" class="form-control"
-          name="rua" ngModel readonly #rua="ngModel">
-      </div>
-      <div class="row mb-3">
-        <div class="col-md-5">
-          <label for="bairro" class="control-label">Bairro</label>
-          <input type="text" class="form-control"
-            name="bairro" ngModel readonly #bairro="ngModel">
-        </div>
-        <div class="col-md-4">
-          <label for="cidade" class="control-label">Cidade</label>
-          <input type="text" class="form-control"
-          name="cidade" ngModel readonly #cidade="ngModel">
-        </div>
-        <div class="col-md-3">
-          <label for="estado" class="control-label">Estado</label>
-          <input type="text" class="form-control"
-            name="estado" ngModel readonly #estado="ngModel" [(ngModel)]="user.estado">
-        </div>
-      </div>
-    </fieldset>
-    
+
     <button type="submit" class="btn btn-primary"
       [disabled]="!form.valid">Submit</button>
 

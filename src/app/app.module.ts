@@ -7,6 +7,7 @@ import { TemplateFormComponent } from './template-form/template-form.component';
 import { DataFormComponent } from './data-form/data-form.component';
 import { FormsModule } from '@angular/forms';
 import { FormDebugComponent } from './form-debug/form-debug.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,7 +20,7 @@ import { FormDebugComponent } from './form-debug/form-debug.component';
     BrowserModule,
     AppRoutingModule,
     FormsModule,
-
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
