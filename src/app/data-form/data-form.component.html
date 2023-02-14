@@ -4,46 +4,45 @@
     <input type="text" class="form-control" id="nome" formControlName="nome"
     [ngClass]="aplicaCssErro('nome')">
     <div class="invalid-feedback">
-      Nome inválido!
+      O nome é obrigatório!
     </div>
   </div>
   <div class="mb-3">
     <label for="email" class="control-label">Email</label>
     <input type="email" class="form-control" id="email" formControlName="email" [ngClass]="aplicaCssErro('email')">
     <div class="invalid-feedback">
-      Email inválido!
+      O email é obrigatório!
     </div>
   </div>
 
   <div class="row mb-3">
     <div class="col-md-3">
       <label for="cep" class="control-label">CEP</label>
-      <input type="cep" class="form-control" id="cep" formControlName="cep" [ngClass]="aplicaCssErro('cep')">
+      <input type="cep" class="form-control" id="cep" formControlName="cep"
+      [ngClass]="aplicaCssErro('cep')"
+      (blur)="buscaCep()">
       <div class="invalid-feedback">
-        CEP inválido!
+        O CEP é obrigatório!
       </div>
     </div>
     <div class="col-md-2">
       <label for="numero" class="control-label">Número</label>
       <input type="numero" class="form-control" id="numero" formControlName="numero" [ngClass]="aplicaCssErro('numero')">
       <div class="invalid-feedback">
-        Número inválido!
+        O número é obrigatório!
       </div>
     </div>
     <div class="col-md-7">
       <label for="comple" class="control-label">Complemento</label>
       <input type="comple" class="form-control" id="comple" formControlName="comple" [ngClass]="aplicaCssErro('comple')">
       <div class="invalid-feedback">
-        Complemento inválido!
+        O complemento é obrigatório!
       </div>
     </div>
   </div>
   <div class="mb-3">
     <label for="rua" class="control-label">Rua</label>
     <input type="text" class="form-control" id="rua" formControlName="rua" [ngClass]="aplicaCssErro('rua')">
-    <div class="invalid-feedback">
-      Rua inválida!
-    </div>
   </div>
   <div class="row mb-3">
     <div class="col-md-3">

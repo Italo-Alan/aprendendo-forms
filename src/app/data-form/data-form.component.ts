@@ -54,19 +54,68 @@ export class DataFormComponent {
 
   onSubmit(){
     console.log(this.formulario)
-
     console.log(this.formulario.value);
 
-    this.http.post('https://httpbin.org/post',
-      JSON.stringify(this.formulario.value))
-    .pipe(map(res => res))
-    .subscribe(dados => {
-      console.log(dados)
-      console.log(this.formulario)
-      this.resetForm();
-    },
-    (error: any) => alert(`erro: ${error}`));
+    if(this.formulario.valid){
+      this.http.post('https://httpbin.org/post',
+        JSON.stringify(this.formulario.value))
+      .pipe(map(res => res))
+      .subscribe(dados => {
+        console.log(dados)
+        console.log(this.formulario)
+        this.resetForm();
+      },
+      (error: any) => alert(`erro: ${error}`));
+    }else{
+      this.verificaValidacaoForm(this.formulario);
+    }
+  }
 
+  buscaCep(){
+    let cep = this.formulario.get('cep')?.value;
+    cep = cep.replace(/\D/g, '');
+
+    if (cep != "" || cep.length === 8) {
+      const validacep = /^[0-9]{8}$/;
+
+      if(validacep.test(cep)) {
+        this.http.get(`//viacep.com.br/ws/${cep}/json/`)
+        .pipe(map((dados: any) => dados))
+        .subscribe(
+          dados => {
+            console.log(dados)
+            this.populaDadosForm(dados)
+          }
+        );
+      }
+    }
+  }
+
+  verificaValidacaoForm(formGroup: FormGroup){
+    Object.keys(this.formulario.controls).forEach( (campo) => {
+      console.log(campo);
+
+      const controle = this.formulario.get(campo);
+      controle?.markAllAsTouched();
+      //Até aqui se o formulário não tiver agrupamento até esse trecho é o suficiente.
+
+      //Nesse trecho aqui verificamos se caso tenha algum aninhamento no form para também fazer a validação dos campos
+      if(controle instanceof FormGroup){
+        this.verificaValidacaoForm(controle);
+      }
+    });
+  }
+
+  populaDadosForm(dados: { logradouro: any; complemento: any; bairro: any; localidade: any; uf: any; }){
+    this.formulario.patchValue({
+      rua: dados.logradouro,
+      bairro: dados.bairro,
+      cidade: dados.localidade,
+      estado: dados.uf
+    })
+
+    //Se quisermos trocar algum dos campos após a pesquisa podemos fazer nesse ponto do código
+      // this.formulario.get('nome')?.setValue('Qualquer nome');
   }
 
   resetForm(){
