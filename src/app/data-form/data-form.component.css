@@ -1,0 +1,7 @@
+.has-error{
+  color: gree;
+}
+.has-error .form-control{
+  border: 1px solid #e40c0c;
+}
+

@@ -8,4 +8,8 @@ import { Component, Input } from '@angular/core';
 export class FormDebugComponent {
   //Input property para passar do formulário para outro componente
   @Input() form: any;
+
+  ngOnInit(){
+    console.log('Debug component');
+  }
 }
