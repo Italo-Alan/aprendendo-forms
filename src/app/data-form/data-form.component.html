@@ -55,7 +55,11 @@
     </div>
     <div class="col-md-4">
       <label for="estado" class="control-label">Estado</label>
-      <input type="estado" class="form-control" id="estado" formControlName="estado" [ngClass]="aplicaCssErro('estado')">
+      <select class="form-control" id="estado" formControlName="estado" [ngClass]="aplicaCssErro('estado')">
+        <option *ngFor="let estado of estados" [value]="estado.sigla">
+          {{ estado.nome }}
+        </option>
+      </select>
     </div>
   </div>
   <div class='col-xs-3'>
