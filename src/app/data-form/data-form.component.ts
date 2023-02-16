@@ -16,6 +16,9 @@ export class DataFormComponent {
   formulario!: FormGroup;
   estados!: EstadoBr[];
   // estados!: Observable<EstadoBr>;
+  tecnologias!: any[];
+  newsletterOpcoes!: any[];
+  termos!: any[];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -30,6 +33,9 @@ export class DataFormComponent {
       email: new FormControl(null)
     });
     */
+
+    this.tecnologias = this.dropdownService.getTecnologias();
+    this.newsletterOpcoes = this.dropdownService.getNewsletter();
 
     this.dropdownService.getEstadosBr()
     .subscribe((dados: EstadoBr[]) => {
@@ -62,7 +68,12 @@ export class DataFormComponent {
       rua: [null, Validators.required],
       bairro: [null, Validators.required],
       cidade: [null, Validators.required],
-      estado: [null, Validators.required]
+      estado: [null, Validators.required],
+      tecnologias: [null, Validators.required],
+      newsletter: [null, Validators.required],
+      //Podemos usar o Validators.pattern para validar checkbos
+      // termos: [null, Validators.pattern('true')]
+      termos: [null, Validators.requiredTrue]
     })
   }
 

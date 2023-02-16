@@ -53,13 +53,40 @@
       <label for="cidade" class="control-label">Cidade</label>
       <input type="cidade" class="form-control" id="cidade" formControlName="cidade" [ngClass]="aplicaCssErro('cidade')">
     </div>
-    <div class="col-md-4">
+    <div class="mb-3 col-md-4">
       <label for="estado" class="control-label">Estado</label>
       <select class="form-control" id="estado" formControlName="estado" [ngClass]="aplicaCssErro('estado')">
         <option *ngFor="let estado of estados" [value]="estado.sigla">
           {{ estado.nome }}
         </option>
       </select>
+    </div>
+    <div class="mb-3 col-md-7">
+      <label for="tecnologias" class="control-label">Tecnologias</label>
+      <select multiple class="form-control" id="tecnologias" formControlName="tecnologias" [ngClass]="aplicaCssErro('tecnologias')">
+        <option *ngFor="let tecnologia of tecnologias" [value]="tecnologia.nome">
+          {{ tecnologia.desc }}
+        </option>
+      </select>
+    </div>
+    <div class="mb-3 col-md-5" [ngClass]="aplicaCssErro('newsletter')">
+      <label for="newsletter" class="control-label">Newsletter</label>
+      <div id="newsletter" class="row">
+        <div class="col-sm-3" *ngFor="let item of newsletterOpcoes">
+          <label class="radio-inline">
+            <input type="radio" [value]="item.valor" formControlName="newsletter"/> {{ item.desc }}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="form-group">
+      <div class="col-md-3" >
+        <div class="checkbox">
+          <label for="" class="checkbox-inline">
+            <input type="checkbox" formControlName="termos" [ngClass]="aplicaCssErro('termos')"> Aceito os termos
+          </label>
+        </div>
+      </div>
     </div>
   </div>
   <div class='col-xs-3'>
