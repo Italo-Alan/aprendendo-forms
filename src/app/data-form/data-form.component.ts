@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { DropdownService } from './../shared/services/dropdown.service';
@@ -19,6 +19,8 @@ export class DataFormComponent {
   tecnologias!: any[];
   newsletterOpcoes!: any[];
   termos!: any[];
+
+  frameworks = ['HTML', 'CSS', 'PHP', 'C', 'C#', 'C++', 'Java', 'Javascript', 'Angular', 'React'];
 
   constructor(
     private formBuilder: FormBuilder,
@@ -55,6 +57,7 @@ export class DataFormComponent {
         Validators.required,
         Validators.pattern("[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?")
       ]],
+      confirmarEmail: [null, [this.equalsTo('email')]],
       cep: [null, [
         Validators.required,
         Validators.minLength(8),
@@ -73,17 +76,83 @@ export class DataFormComponent {
       newsletter: [null, Validators.required],
       //Podemos usar o Validators.pattern para validar checkbos
       // termos: [null, Validators.pattern('true')]
-      termos: [null, Validators.requiredTrue]
+      termos: [null, Validators.requiredTrue],
+      frameworks: this.buildFrameworks()
     })
+  }
+
+  equalsTo(outroCampo: string){
+    const validator = (formControl: FormControl | any) => {
+      if(outroCampo == null){
+        throw new Error('É necessário informar um campo.');
+      }
+
+      if(!formControl.root || !(<FormGroup>formControl.root).controls){
+        return null;
+      }
+
+      const campo = (<FormGroup>formControl.root).get(outroCampo);
+
+      if(!campo){
+        throw new Error('É necessário informar um campo válido.');
+      }
+
+      if(campo.value !== formControl.value){
+        return { equalsTo: outroCampo};
+      }
+
+      return null;
+    }
+    return validator;
+  }
+
+  buildFrameworks(){
+    const values = this.frameworks.map( valor => new FormControl(false));
+    return this.formBuilder.array(values, this.requiredMinCheckbox(1));
+
+    // this.formBiulder.array([
+    //   new FormControl(false),
+    //   new FormControl(false),
+    //   new FormControl(false),
+    //   new FormControl(false)
+    // ]
+    // )
+    // return
+  }
+
+  requiredMinCheckbox( min = 1 ){
+    const validator = (formArray: FormArray | any) => {
+      // const values =  formArray.controls;
+      // let totalChecked = 0;
+      // for(let i = 0; i<values.length; i++){
+      //   if( values [i].value){
+      //     totalChecked += 1;
+      //   }
+      // }
+      const totalChecked = formArray.controls
+        .map( (v: { value: any; }) => v.value)
+        .reduce((total : number, atual : number) => atual ? total + atual : total, 0);
+      return totalChecked >= min ? null : { required: true};
+    };
+
+    return validator;
   }
 
   onSubmit(){
     console.log(this.formulario)
     console.log(this.formulario.value);
 
+    let valueSubmit = Object.assign({}, this.formulario.value);
+
+    valueSubmit = Object.assign(valueSubmit, {
+      frameworks: valueSubmit.frameworks
+      .map((v: any, i: number) => v ? this.frameworks[i] : null)
+        .filter((v: null) => v == true)
+    })
+
     if(this.formulario.valid){
       this.http.post('https://httpbin.org/post',
-        JSON.stringify(this.formulario.value))
+        JSON.stringify(valueSubmit))
       .pipe(map(res => res))
       .subscribe(dados => {
         console.log(dados)

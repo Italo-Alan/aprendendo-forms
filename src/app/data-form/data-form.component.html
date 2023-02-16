@@ -8,10 +8,17 @@
     </div>
   </div>
   <div class="mb-3">
-    <label for="email" class="control-label">Email</label>
-    <input type="email" class="form-control" id="email" formControlName="email" [ngClass]="aplicaCssErro('email')">
+    <label for="confirmarEmail" class="control-label">Email</label>
+    <input type="email" class="form-control" id="confirmarEmail" formControlName="confirmarEmail" [ngClass]="aplicaCssErro('confirmarEmail')">
     <div class="invalid-feedback">
       O email é obrigatório!
+    </div>
+  </div>
+  <div class="mb-3">
+    <label for="email" class="control-label">Confirmação de email</label>
+    <input type="email" class="form-control" id="email" formControlName="email" [ngClass]="aplicaCssErro('email')">
+    <div class="invalid-feedback" >
+      Confirmar email é obrigatório!
     </div>
   </div>
 
@@ -79,7 +86,7 @@
         </div>
       </div>
     </div>
-    <div class="form-group">
+    <div class="form-group mb-3">
       <div class="col-md-3" >
         <div class="checkbox">
           <label for="" class="checkbox-inline">
@@ -87,7 +94,20 @@
           </label>
         </div>
       </div>
+
+      <div class="col-md-12 ">
+        <label for="frameworks" class="mb-3">Frameworks</label>
+        <div id="frameworks" class="row">
+            <div class="checkbox" class="col-sm-3" formArrayName="frameworks"
+              *ngFor="let item of  formulario.get('frameworks')?.value;; let i = index;">
+              <label class="checkbox-inline">
+                <input type="checkbox" [ngClass]="aplicaCssErro('frameworks')" [formControlName]="i"> {{ frameworks[i]}}
+              </label>
+            </div>
+        </div>
+      </div>
     </div>
+
   </div>
   <div class='col-xs-3'>
     <button type="submit" class="btn btn-primary me-2">Submit</button>
